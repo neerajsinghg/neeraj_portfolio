@@ -1,119 +1,209 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FileText, Download, CheckCircle, XCircle, Clock, BarChart3, BookOpen } from "lucide-react";
-import Link from "next/link";
+import { FileText, Download, CheckCircle, XCircle, Clock, BarChart3, BookOpen, ExternalLink } from "lucide-react";
+import { useState } from "react";
 
-const documents = [
-  { name: "Test Plan Example", icon: <FileText className="w-5 h-5 text-accent" /> },
-  { name: "Test Strategy", icon: <FileText className="w-5 h-5 text-accent" /> },
-  { name: "Sample Bug Reports", icon: <FileText className="w-5 h-5 text-accent" /> },
-  { name: "API Test Collection", icon: <FileText className="w-5 h-5 text-accent" /> }
+const DOCUMENTS = [
+  { 
+    name: "Master Test Plan (Logistics)", 
+    desc: "Comprehensive testing strategy documentation for EMIST logistics system integrations.",
+    type: "PDF Document"
+  },
+  { 
+    name: "Consignment Test Strategy", 
+    desc: "Detailed verification protocols, locator guidelines, and regression schedule maps.",
+    type: "PDF Document" 
+  },
+  { 
+    name: "Sample Detailed Bug Reports", 
+    desc: "Professional issue tickets with reproducible steps, logs, and root-cause analysis.",
+    type: "Excel Sheet" 
+  },
+  { 
+    name: "Postman API Test Collection", 
+    desc: "Pre-configured environment collection including environment authentication tokens and schema verifications.",
+    type: "JSON Collection" 
+  }
 ];
 
 export default function ReportsDocs() {
+  const [activeReportTab, setActiveReportTab] = useState<"smoke" | "regression">("regression");
+
+  // Mock report metrics
+  const reportData = {
+    smoke: {
+      total: 120,
+      passed: 119,
+      failed: 1,
+      duration: "3.2 mins",
+      successRate: "99.1%"
+    },
+    regression: {
+      total: 1045,
+      passed: 1024,
+      failed: 21,
+      duration: "14.8 mins",
+      successRate: "98.0%"
+    }
+  };
+
+  const activeStats = reportData[activeReportTab];
+
   return (
-    <section id="reports" className="py-24 relative bg-black/40">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="reports" className="py-24 relative bg-black">
+      {/* Glow effect */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-primary/5 rounded-full blur-[140px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        
+        {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Reports & <span className="text-primary">Documentation</span></h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Providing transparency and proof of work through comprehensive test reporting and documentation.</p>
+          <h2 className="text-xs font-semibold text-primary uppercase tracking-widest mb-3">Metrics & Artifacts</h2>
+          <h3 className="text-3xl md:text-5xl font-bold tracking-tight text-white">
+            Reports & <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-yellow-500">Documentation</span>
+          </h3>
+          <p className="text-muted-foreground text-sm max-w-2xl mx-auto mt-4">
+            Demonstrating execution transparency and delivery verification through structured test reports.
+          </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12">
+        <div className="grid lg:grid-cols-12 gap-8 items-stretch">
           
-          {/* Test Reports Side */}
+          {/* Left Column: Allure-style Execution Dashboard */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
+            viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="glass p-8 rounded-3xl border border-white/10 flex flex-col justify-center relative overflow-hidden group"
+            className="lg:col-span-6 glass p-8 rounded-2xl border border-white/5 flex flex-col justify-between relative group hover:border-primary/10 transition-colors"
           >
-            <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/10 rounded-full blur-[50px] group-hover:bg-secondary/20 transition-colors" />
-            <div className="flex items-center gap-3 mb-6">
-              <BarChart3 className="w-8 h-8 text-secondary" />
-              <h3 className="text-2xl font-bold">Automation Execution</h3>
-            </div>
-            
-            <div className="space-y-4 mb-8 z-10">
-              <div className="bg-slate-900/80 p-4 rounded-xl border border-white/5 flex justify-between items-center">
-                <span className="text-muted-foreground font-medium">Total Tests</span>
-                <span className="font-bold text-xl">150</span>
+            <div>
+              <div className="flex items-center justify-between border-b border-white/5 pb-4 mb-6">
+                <div className="flex items-center gap-3">
+                  <BarChart3 className="w-6 h-6 text-primary" />
+                  <h4 className="text-base font-bold text-white">Pipeline Execution Metrics</h4>
+                </div>
+                
+                {/* Selector */}
+                <div className="p-0.5 bg-zinc-950 border border-white/5 rounded-lg flex text-[10px]">
+                  <button
+                    onClick={() => setActiveReportTab("regression")}
+                    className={`px-3 py-1 rounded transition-colors ${
+                      activeReportTab === "regression" ? "bg-primary text-black font-semibold" : "text-zinc-400 hover:text-white"
+                    }`}
+                  >
+                    Full Regression
+                  </button>
+                  <button
+                    onClick={() => setActiveReportTab("smoke")}
+                    className={`px-3 py-1 rounded transition-colors ${
+                      activeReportTab === "smoke" ? "bg-primary text-black font-semibold" : "text-zinc-400 hover:text-white"
+                    }`}
+                  >
+                    Smoke Suite
+                  </button>
+                </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-green-500/10 p-4 rounded-xl border border-green-500/20 flex flex-col">
-                  <div className="flex items-center gap-2 mb-2 text-green-500">
-                    <CheckCircle className="w-5 h-5" />
-                    <span className="font-medium text-sm">Passed</span>
-                  </div>
-                  <span className="text-3xl font-bold text-green-400">145</span>
+
+              {/* Stats Rings / Cards */}
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="bg-zinc-950/60 p-4 rounded-xl border border-white/5 text-left">
+                  <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider block mb-1">Total Test Cases</span>
+                  <span className="text-3xl font-extrabold text-white">{activeStats.total}</span>
                 </div>
-                <div className="bg-red-500/10 p-4 rounded-xl border border-red-500/20 flex flex-col">
-                  <div className="flex items-center gap-2 mb-2 text-red-500">
-                    <XCircle className="w-5 h-5" />
-                    <span className="font-medium text-sm">Failed</span>
+                <div className="bg-zinc-950/60 p-4 rounded-xl border border-white/5 text-left">
+                  <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider block mb-1">Execution Time</span>
+                  <div className="flex items-center gap-1.5 mt-1 text-white">
+                    <Clock className="w-4 h-4 text-primary" />
+                    <span className="text-2xl font-bold">{activeStats.duration}</span>
                   </div>
-                  <span className="text-3xl font-bold text-red-400">5</span>
                 </div>
               </div>
-              <div className="bg-slate-900/80 p-4 rounded-xl border border-white/5 flex items-center justify-between">
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <Clock className="w-5 h-5 text-primary" />
-                  <span className="font-medium text-sm">Execution Time</span>
+
+              <div className="grid grid-cols-3 gap-4 mb-6">
+                <div className="bg-emerald-500/5 p-4 rounded-xl border border-emerald-500/10 text-left">
+                  <div className="flex items-center gap-1.5 text-emerald-400 font-bold text-[9px] uppercase tracking-wider mb-1">
+                    <CheckCircle className="w-3.5 h-3.5" /> Passed
+                  </div>
+                  <span className="text-2xl font-extrabold text-emerald-400">{activeStats.passed}</span>
                 </div>
-                <span className="font-bold">25 minutes</span>
+                
+                <div className="bg-red-500/5 p-4 rounded-xl border border-red-500/10 text-left">
+                  <div className="flex items-center gap-1.5 text-red-400 font-bold text-[9px] uppercase tracking-wider mb-1">
+                    <XCircle className="w-3.5 h-3.5" /> Failed
+                  </div>
+                  <span className="text-2xl font-extrabold text-red-400">{activeStats.failed}</span>
+                </div>
+
+                <div className="bg-primary/5 p-4 rounded-xl border border-primary/10 text-left">
+                  <span className="text-[9px] text-primary font-bold uppercase tracking-wider block mb-1">Pass Ratio</span>
+                  <span className="text-2xl font-extrabold text-primary">{activeStats.successRate}</span>
+                </div>
               </div>
             </div>
 
-            <Link href="#" className="w-full py-3 bg-secondary/10 hover:bg-secondary/20 text-secondary rounded-xl flex items-center justify-center gap-2 font-medium transition-colors z-10">
-              View Full Allure Report <ExternalLinkIcon className="w-4 h-4" />
-            </Link>
+            <a 
+              href="#" 
+              onClick={(e) => e.preventDefault()}
+              className="w-full py-3.5 border border-primary/20 hover:border-primary bg-primary/5 hover:bg-primary hover:text-black rounded-xl flex items-center justify-center gap-2 font-bold text-xs uppercase tracking-wider transition-all"
+            >
+              Launch Simulated Allure Dashboard <ExternalLink className="w-4 h-4" />
+            </a>
           </motion.div>
 
-          {/* QA Documentation Side */}
+          {/* Right Column: QA Deliverables Downloads */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
+            viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="flex flex-col gap-6"
+            className="lg:col-span-6 flex flex-col justify-between"
           >
-            <div className="flex items-center gap-3 mb-2">
-              <BookOpen className="w-8 h-8 text-accent" />
-              <h3 className="text-2xl font-bold">QA Documentation</h3>
-            </div>
-            
-            <p className="text-muted-foreground mb-4">Sample documentation artifacts representing industry-standard test planning and strategy formulation.</p>
+            <div className="space-y-4">
+              <div className="flex items-center gap-3 mb-2 text-left">
+                <BookOpen className="w-6 h-6 text-primary" />
+                <h4 className="text-base font-bold text-white">QA Deliverable Templates</h4>
+              </div>
+              <p className="text-zinc-500 text-xs text-left leading-relaxed mb-4">
+                Review representative testing deliverables that establish the structure and metrics driving my automation framework executions.
+              </p>
 
-            <div className="grid gap-4">
-              {documents.map((doc, i) => (
-                <div key={doc.name} className="glass p-4 rounded-xl border border-white/10 flex items-center justify-between hover:border-accent/50 transition-colors group">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      {doc.icon}
+              <div className="grid gap-3">
+                {DOCUMENTS.map((doc, idx) => (
+                  <div 
+                    key={doc.name} 
+                    className="glass p-4 rounded-xl border border-white/5 flex items-center justify-between hover:border-primary/25 transition-all duration-300 group"
+                  >
+                    <div className="flex items-center gap-3.5 text-left">
+                      <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-primary/5 group-hover:border-primary/20 transition-all duration-300">
+                        <FileText className="w-5 h-5 text-primary" />
+                      </div>
+                      <div>
+                        <h5 className="text-xs font-bold text-white group-hover:text-primary transition-colors">{doc.name}</h5>
+                        <p className="text-[10px] text-zinc-500 mt-1 leading-snug">{doc.desc}</p>
+                      </div>
                     </div>
-                    <span className="font-medium text-foreground/90">{doc.name}</span>
+
+                    <a 
+                      href="#" 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        alert(`Downloading sample template: ${doc.name}`);
+                      }}
+                      className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-primary hover:text-black hover:border-primary transition-all text-zinc-400 shrink-0"
+                      title={`Download ${doc.name}`}
+                    >
+                      <Download className="w-4 h-4" />
+                    </a>
                   </div>
-                  <Link href="#" className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-accent hover:text-white transition-colors text-muted-foreground">
-                    <Download className="w-4 h-4" />
-                  </Link>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </motion.div>
+
         </div>
       </div>
     </section>
-  );
-}
-
-function ExternalLinkIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-      <polyline points="15 3 21 3 21 9"></polyline>
-      <line x1="10" y1="14" x2="21" y2="3"></line>
-    </svg>
   );
 }

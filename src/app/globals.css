@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0b0f19;
-  --foreground: #f8fafc;
-  --card: #0f172a;
-  --card-foreground: #f8fafc;
-  --primary: #6366f1;
-  --primary-foreground: #ffffff;
-  --muted: #1e293b;
-  --muted-foreground: #94a3b8;
-  --accent: #a855f7;
-  --secondary: #06b6d4;
-  --border: #334155;
+  --background: #030303;
+  --foreground: #f5f5f7;
+  --card: #09090b;
+  --card-foreground: #f5f5f7;
+  --primary: #ffd700;
+  --primary-foreground: #000000;
+  --muted: #121214;
+  --muted-foreground: #8e8e93;
+  --accent: #ffd700;
+  --secondary: #b8860b;
+  --border: #1a1a1e;
   --radius: 0.75rem;
 }
 
@@ -38,17 +38,95 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
-  background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 24px 24px;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(255, 215, 0, 0.05) 0%, transparent 50%),
+    linear-gradient(to right, rgba(255,255,255,0.01) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.01) 1px, transparent 1px);
+  background-size: 100% 100%, 32px 32px, 32px 32px;
   background-attachment: fixed;
   font-family: var(--font-sans), sans-serif;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .glass {
-  background: rgba(15, 23, 42, 0.4);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(9, 9, 11, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 215, 0, 0.06);
 }
+
+.glass-gold {
+  background: rgba(9, 9, 11, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 215, 0, 0.05);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #030303;
+}
+::-webkit-scrollbar-thumb {
+  background: #1a1a1e;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 215, 0, 0.1);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ffd700;
+}
+
+/* Selection color */
+::selection {
+  background-color: #ffd700;
+  color: #000000;
+}
+
+/* Gold Glow animations */
+@keyframes goldGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.35);
+  }
+}
+
+.gold-glow-hover:hover {
+  animation: goldGlow 2s infinite ease-in-out;
+  border-color: rgba(255, 215, 0, 0.4);
+}
+
+/* 3D Laptop Container Styles */
+.laptop-viewport {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.laptop-container {
+  transform: rotateX(12deg) rotateY(-18deg) rotateZ(3deg);
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.laptop-container:hover {
+  transform: rotateX(8deg) rotateY(-8deg) rotateZ(1deg);
+}
+
+.laptop-screen {
+  transform: rotateX(-5deg);
+  transform-origin: bottom;
+  transform-style: preserve-3d;
+  box-shadow: 0 0 40px rgba(255, 215, 0, 0.15);
+}
+
+.laptop-base {
+  transform: rotateX(80deg);
+  transform-origin: top;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+}
+
