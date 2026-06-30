@@ -18,26 +18,43 @@ const NAV_LINKS = [
 ];
 
 const SEARCHABLE_ITEMS = [
-  { term: "Playwright Framework", section: "#projects", category: "Project" },
-  { term: "Python Selenium Framework", section: "#projects", category: "Project" },
-  { term: "Java Hybrid Framework", section: "#projects", category: "Project" },
-  { term: "API Testing & Rest Assured", section: "#projects", category: "Project" },
-  { term: "GitLab CI/CD Pipeline", section: "#projects", category: "Project" },
-  { term: "Logistics & Supply Chain", section: "#about", category: "Domain" },
-  { term: "EMIST / ICONSIGNMENT", section: "#about", category: "Domain" },
-  { term: "Python & Java Programming", section: "#skills", category: "Skill" },
-  { term: "Pytest & TestNG frameworks", section: "#skills", category: "Skill" },
-  { term: "Allure & Extent reports", section: "#reports", category: "Reports" },
-  { term: "Resume Download", section: "#about", category: "Action" },
-  { term: "Certifications", section: "#about", category: "Credentials" },
-  { term: "Blog & QA Insights", section: "#blog", category: "Articles" },
-  { term: "Contact & Interview Booking", section: "#contact", category: "Booking" }
+  { term: "TheDronaClasses.com", section: "#projects", category: "Project" },
+  { term: "TheApnaSolution.com", section: "#projects", category: "Project" },
+  { term: "AmarInstitute.in", section: "#projects", category: "Project" },
+  { term: "Salt Sprinkle", section: "#projects", category: "Project" },
+  { term: "EMIST Logistics System", section: "#projects", category: "Project" },
+  { term: "ICONSIGNMENT Transport", section: "#projects", category: "Project" },
+  { term: "Enterprise Automation Suite", section: "#projects", category: "Project" },
+  { term: "Logistics & Supply Chain Domain", section: "#about", category: "Domain" },
+  { term: "Full-Stack Web Engineering", section: "#about", category: "Expertise" },
+  { term: "Playwright & Selenium Testing", section: "#skills", category: "Skill" },
+  { term: "React & Next.js Development", section: "#skills", category: "Skill" },
+  { term: "Node.js & Express REST APIs", section: "#skills", category: "Skill" },
+  { term: "Allure & Extent Execution Reports", section: "#reports", category: "Reports" },
+  { term: "Blog & Technical Articles", section: "#blog", category: "Articles" },
+  { term: "Contact & Interview Scheduling", section: "#contact", category: "Booking" }
 ];
 
 export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<typeof SEARCHABLE_ITEMS>([]);
+
+  // Keyboard shortcut listener for "/" key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (
+        e.key === "/" && 
+        document.activeElement?.tagName !== "INPUT" && 
+        document.activeElement?.tagName !== "TEXTAREA"
+      ) {
+        e.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   useEffect(() => {
     if (!searchQuery.trim()) {

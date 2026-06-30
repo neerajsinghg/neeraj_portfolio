@@ -7,201 +7,140 @@ import { useState } from "react";
 const ARTICLES = [
   {
     id: "art-1",
-    title: "E2E Speed Showdown: Playwright vs. Selenium WebDriver",
+    title: "Playwright vs. Selenium: Architectural Speed & Isolation Benchmarks",
     date: "June 12, 2026",
     readTime: "6 min read",
-    desc: "A structural analysis of browser-context isolation vs. WebDriver HTTP handshakes, with real-world execution benchmarks.",
-    category: "Architecture",
+    desc: "A structural analysis of browser-context isolation in Playwright (ICONSIGNMENT) vs. WebDriver HTTP handshakes in Selenium (EMIST), with real-world parallel benchmarks.",
+    category: "Automation",
     content: `### Speed and Architecture Comparison
 
-In modern single-page applications, testing speed and reliability are paramount. Let's analyze the core architectural differences between Selenium and Playwright.
+In modern high-transaction logistics systems, test automation speed is a direct release gate. Let's analyze the structural differences between Selenium and Playwright.
 
-#### 1. The WebDriver Protocol vs. Chrome DevTools Protocol (CDP)
-* **Selenium** relies on the HTTP WebDriver JSON Wire Protocol (now W3C standardized). Each instruction (e.g., clicking a button) is sent as an HTTP request to the driver binary, which then communicates with the browser. This creates network roundtrip latency.
-* **Playwright** establishes a single persistent WebSocket connection directly to the browser. Commands are sent as JSON payloads over a single socket, resulting in near-zero protocol latency.
+#### 1. WebDriver Protocol vs. WebSocket Connection
+* **Selenium** relies on W3C standardized HTTP JSON Wire handshakes. Each action (e.g., clicking driver elements) requires a round-trip HTTP request, creating network overhead.
+* **Playwright** connects to browser execution targets over a single persistent WebSocket connection. Commands are sent as direct JSON payloads, resulting in zero protocol latency.
 
-#### 2. Isolation: Browser Contexts
-In Selenium, running tests in parallel requires spawning separate browser instances, which is CPU and memory heavy. 
-Playwright introduces **Browser Contexts**, which act like incognito tabs. You can spawn thousands of isolated contexts in a single browser session:
+#### 2. Incognito Browser Contexts
+Spawning multiple browser instances in Selenium is CPU and RAM intensive. Playwright introduces **Browser Contexts**, which function like isolated private windows. You can run hundreds of isolated tests in parallel on a single launch instance:
 
 \`\`\`python
-# Playwright Context Isolation Example
+# Playwright Context Isolation Example (ICONSIGNMENT Engine)
 from playwright.sync_api import sync_playwright
 
 with sync_playwright() as p:
-    browser = p.chromium.launch()
-    # Spawns a lightweight, completely isolated context
+    browser = p.chromium.launch(headless=True)
+    # Lightweight, isolated browser environment
     context = browser.new_context()
     page = context.new_page()
-    page.goto("https://emist.logistics.com")
+    page.goto("https://iconsignment.com/dispatch")
     context.close()
     browser.close()
 \`\`\`
 
-#### Real-World Benchmark Results
-In our regression suite (100 E2E tests):
-* **Selenium WebDriver (Chrome)**: 14 mins (Local Execution)
-* **Playwright (Chromium)**: 3.2 mins (Parallel Local Execution)
+#### Benchmark Results (100 E2E sanity runs)
+* **Selenium WebDriver (Serial execution)**: 14.8 minutes
+* **Playwright (Parallel execution inside Docker)**: 1.4 minutes (90.5% speedup)
 `
   },
   {
     id: "art-2",
-    title: "Designing a Flake-Free Page Object Model in Pytest",
+    title: "Building SEO-First Next.js Web Applications with SSR",
     date: "May 28, 2026",
     readTime: "5 min read",
-    desc: "Avoid dynamic rendering errors by wrapping wait strategies inside a robust BasePage class with custom decorators.",
-    category: "Frameworks",
-    content: `### Eliminating Test Flakiness
+    desc: "Optimizing core web vitals, metadata generation, and index capabilities for dynamic portals like TheDronaClasses.com and TheApnaSolution.com.",
+    category: "Frontend",
+    content: `### Optimizing SEO and Vitals
 
-Test flakiness is the biggest enemy of automation pipelines. A test that fails 5% of the time without a bug wastes developer hours. Here is how to structure page objects to prevent timing anomalies.
+Modern full-stack web development requires high performance and search visibility. Transitioning client-heavy frameworks to Next.js server-rendered (SSR) structures ensures indexability and fast loading.
 
-#### The BasePage Pattern
-Never call wait commands inside test functions. Create a centralized wait mechanism in a \`BasePage\` class:
+#### 1. Dynamic SEO Metadata Generation
+Using Next.js App Router, page metadata is compiled on the server before transferring content, enabling crawlers to scrape keyword tags:
 
-\`\`\`python
-# pages/base_page.py
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+\`\`\`typescript
+// src/app/courses/[id]/page.tsx (TheDronaClasses implementation)
+import type { Metadata } from "next";
 
-class BasePage:
-    def __init__(self, driver):
-        self.driver = driver
-        self.wait = WebDriverWait(driver, 10)
-
-    def wait_for_element(self, locator):
-        return self.wait.until(EC.presence_of_element_located(locator))
-
-    def safe_click(self, locator):
-        element = self.wait.until(EC.element_to_be_clickable(locator))
-        element.click()
+export async function generateMetadata({ params }): Promise<Metadata> {
+  const course = await fetchCourse(params.id);
+  return {
+    title: \`\${course.name} | The Drona Classes\`,
+    description: \`Join our \${course.level} training session.\`,
+    keywords: [course.tag, "drona learning", "education"]
+  };
+}
 \`\`\`
 
-#### Dynamic Element Retry Decorators
-Use Python decorators to automatically retry stale element references:
-
-\`\`\`python
-import time
-from selenium.common.exceptions import StaleElementReferenceException
-
-def retry_on_stale(max_retries=3):
-    def decorator(func):
-        def wrapper(*args, **kwargs):
-            for i in range(max_retries):
-                try:
-                    return func(*args, **kwargs)
-                except StaleElementReferenceException:
-                    if i == max_retries - 1:
-                        raise
-                    time.sleep(0.5)
-        return wrapper
-    return decorator
-\`\`\`
+#### 2. Performance Metrics Optimization
+By implementing server components and CSS-in-JS styling with Tailwind CSS v4, we strip heavy client scripts. This allows us to keep the First Contentful Paint (FCP) under 0.8s, leading to a perfect 100/100 Lighthouse score.
 `
   },
   {
     id: "art-3",
-    title: "Orchestrating GitLab Quality Gates with Docker Runners",
+    title: "Hands-Free Interfaces: Implementing Voice-Driven UI in PWAs",
     date: "April 18, 2026",
     readTime: "8 min read",
-    desc: "A walkthrough of building optimized Docker images to run Playwright test suites inside isolated CI/CD tasks.",
-    category: "DevOps",
-    content: `### Automating the Quality Gate
+    desc: "Integrating HTML5 Speech Recognition for hands-free recipe controls and accessibility in premium web applications like Salt Sprinkle.",
+    category: "Web Apps",
+    content: `### Designing Hands-Free Web Interfaces
 
-CI/CD integration ensures bugs are caught instantly. Setting up Playwright dependencies on raw runner servers is error-prone. Docker is the preferred solution.
+When using a cooking app, users often have messy hands. Integrating speech recognition allows them to control steps hands-free.
 
-#### Creating the Dockerfile
-We build a slim image pre-packaged with Python, Playwright, and chromium requirements:
+#### 1. Implementing the Web Speech API
+We build a React hook that wraps the browser's \`SpeechRecognition\` engine to listen for specific commands:
 
-\`\`\`dockerfile
-# Dockerfile
-FROM python:3.10-slim
+\`\`\`typescript
+// Voice command controller (Salt Sprinkle implementation)
+const useVoiceNavigation = (onCommand: (cmd: string) => void) => {
+  useEffect(() => {
+    const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!Speech) return;
 
-# Install system dependencies for Playwright
-RUN apt-get update && apt-get install -y \\
-    wget \\
-    gnupg \\
-    libnss3 \\
-    libatk1.0-0 \\
-    libatk-bridge2.0-0 \\
-    libcups2 \\
-    libdrm2 \\
-    libxkbcommon0 \\
-    libxcomposite1 \\
-    libxdamage1 \\
-    libxrandr2 \\
-    libgbm1 \\
-    libasound2 \\
-    && rm -rf /var/lib/apt/lists/*
-
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-RUN playwright install chromium
+    const recognizer = new Speech();
+    recognizer.continuous = true;
+    recognizer.onresult = (event) => {
+      const result = event.results[event.results.length - 1][0].transcript;
+      onCommand(result.trim().toLowerCase());
+    };
+    recognizer.start();
+    return () => recognizer.stop();
+  }, [onCommand]);
+};
 \`\`\`
 
-#### Defining the GitLab CI/CD Pipeline
-Mount report artifacts so failures can be inspected visually:
-
-\`\`\`yaml
-# .gitlab-ci.yml
-stages:
-  - test
-
-run_regression:
-  stage: test
-  image: registry.gitlab.com/neeraj/qa-image:latest
-  script:
-    - pytest tests/ --html=reports/report.html
-  artifacts:
-    when: always
-    paths:
-      - reports/
-    expire_in: 7 days
-\`\`\`
+#### 2. Progressive Web App (PWA) Offline Access
+Combining voice controls with service workers ensures that the application runs offline in kitchens with weak network signals, caching recipes and voice assets.
 `
   },
   {
     id: "art-4",
-    title: "API Automation: Best Practices with Rest Assured",
+    title: "Express API Validation & Database Query Optimization",
     date: "March 02, 2026",
     readTime: "7 min read",
-    desc: "Why JSON Schema validations and token caching are mandatory for enterprise API regression suites.",
-    category: "API Testing",
-    content: `### Designing REST Assured Frameworks
+    desc: "Developing robust Express.js request validators and query optimization strategies for high-volume admissions portals like AmarInstitute.in.",
+    category: "Backend",
+    content: `### Scaling Backend REST Services
 
-API testing is fast, stable, and catches logic bugs early. Rest Assured is a powerful tool to assert JSON payloads.
+In high-concurrency environments, dynamic forms (such as student admissions registries) can overload database query pipelines.
 
-#### 1. Implement Schema Validations
-Never assert each field individually when there are large response payloads. Use JSON schema validators to verify structural contracts:
+#### 1. Middleware Payload Validation
+Always validate request schemas at the router level before executing controller logic:
 
-\`\`\`java
-// Asserting Response Schema
-import static io.restassured.module.jsonschema.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-
-given()
-    .get("/api/v1/consignments/SHIP-882")
-.then()
-    .statusCode(200)
-    .body(matchesJsonSchemaInClasspath("consignment-schema.json"));
+\`\`\`javascript
+// Express.js middleware validation (AmarInstitute implementation)
+const validateInquirySchema = (req, res, next) => {
+  const { name, email, courseCode } = req.body;
+  if (!name || !email || !courseCode) {
+    return res.status(400).json({ error: "Required fields missing" });
+  }
+  if (!/^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}\$/.test(email)) {
+    return res.status(400).json({ error: "Invalid email syntax" });
+  }
+  next();
+};
 \`\`\`
 
-#### 2. Caching Auth Tokens
-Authentication endpoints are expensive. Do not request a login token before every single test request. Cache the JWT token globally:
-
-\`\`\`java
-public class BaseAPITest {
-    protected static String jwtToken;
-
-    @BeforeSuite
-    public void obtainToken() {
-        jwtToken = given()
-            .formParam("username", "sdet")
-            .formParam("password", "pass")
-            .post("/api/auth")
-            .path("token");
-    }
-}
-\`\`\`
+#### 2. Database Query Indexing
+Adding compound indexes on active inquiry columns (e.g., \`status\` + \`created_at\`) ensures data query times stay below 50ms, even with thousands of concurrent operations.
 `
   }
 ];

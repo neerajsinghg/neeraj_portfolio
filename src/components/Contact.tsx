@@ -2,26 +2,21 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, MessageCircle, Send, Calendar as CalendarIcon, Clock, CheckCircle2, PhoneCall } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const TIME_SLOTS = ["10:00 AM", "11:30 AM", "02:00 PM", "04:30 PM"];
 
 // Generate next 5 business days starting today
 const getUpcomingDays = () => {
   const days = [];
-  const start = new Date();
-  let count = 0;
+  const current = new Date();
   
-  while (count < 5) {
-    const current = new Date(start);
-    current.setDate(start.getDate() + count + (start.getDay() === 0 ? 1 : 0)); // simple weekend offset
-    if (current.getDay() !== 0 && current.getDay() !== 6) { // skip weekends
-      days.push(current);
-    } else {
-      start.setDate(start.getDate() + 1);
-      continue;
+  while (days.length < 5) {
+    const dayOfWeek = current.getDay();
+    if (dayOfWeek !== 0 && dayOfWeek !== 6) { // Skip Sunday (0) and Saturday (6)
+      days.push(new Date(current));
     }
-    count++;
+    current.setDate(current.getDate() + 1);
   }
   return days;
 };
@@ -33,10 +28,14 @@ export default function Contact() {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
   // Calendar Booking state
-  const [upcomingDays] = useState<Date[]>(getUpcomingDays());
+  const [upcomingDays, setUpcomingDays] = useState<Date[]>([]);
   const [selectedDayIndex, setSelectedDayIndex] = useState<number | null>(null);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null);
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
+
+  useEffect(() => {
+    setUpcomingDays(getUpcomingDays());
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));

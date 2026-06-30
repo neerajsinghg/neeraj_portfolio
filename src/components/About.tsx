@@ -23,13 +23,13 @@ const EXPERTISE_CARDS = [
   },
   {
     icon: <Code2 className="w-6 h-6 text-primary" />,
-    title: "Polyglot QA Engineering",
-    description: "Proficient in Python and Java backend engineering. Crafting maintainable and clean automation code that complies with enterprise software development standards."
+    title: "Full-Stack Web Engineering",
+    description: "Designing and developing modern, responsive, and SEO-optimized frontend/backend solutions using React, Next.js, TypeScript, Express, Node.js, and RESTful APIs."
   },
   {
     icon: <ShieldCheck className="w-6 h-6 text-primary" />,
-    title: "API Quality Assurance",
-    description: "Comprehensive automated API testing using Rest Assured and Postman, incorporating response schema validation, JSON/XML parsing, and strict authentication flows."
+    title: "API & Database Validation",
+    description: "Comprehensive automated API testing using REST Assured and Postman, integrated with SQL compound indexing and database integrity verification."
   }
 ];
 
@@ -48,7 +48,7 @@ export default function About() {
             Pioneering Enterprise <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-yellow-500">Quality Systems</span>
           </h3>
           <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto mt-4 leading-relaxed">
-            A software quality engineer with over a decade of experience designing and managing automation ecosystems for enterprise supply chain operations.
+            A software quality engineer and full-stack developer with over a decade of experience designing test automation ecosystems and high-performance web applications.
           </p>
         </div>
 
@@ -65,13 +65,16 @@ export default function About() {
           >
             <div className="space-y-6">
               <h4 className="text-xl font-bold text-white flex items-center gap-2">
-                <Award className="w-5 h-5 text-primary" /> Senior SDET & Automation Architect
+                <Award className="w-5 h-5 text-primary" /> Software Engineer & SDET Specialist
               </h4>
               <p className="text-zinc-400 text-sm md:text-base leading-relaxed">
-                For the past 10.5+ years, I have specialized in building reliable quality pipelines for complex web services. By developing and implementing test automation suites, I help development teams release features confidently, reducing manual sanity testing times from hours to single-digit minutes.
+                I am a Software Engineer, SDET, and Full-Stack Web Developer with 10.5+ years of experience in software quality engineering, test automation, and modern web development. I specialize in Python, Java, Playwright, Selenium, Pytest, TestNG, REST API Automation, and CI/CD, building scalable automation frameworks for Logistics and Supply Chain platforms.
               </p>
               <p className="text-zinc-400 text-sm md:text-base leading-relaxed">
-                My primary focus has been within the **Logistics & Supply Chain** sector, where I have led testing efforts on core enterprise platforms like **EMIST** (Enterprise Materials & Inventory System Tracker) and **ICONSIGNMENT** (Interactive Consignment & Dispatch Management). I combine solid engineering patterns (POM, Facades, Factories) with test suites to ensure these systems handle massive transactional loads flawlessly.
+                Beyond test automation, I develop modern, responsive, and high-performance web applications using React, Next.js, JavaScript, TypeScript, HTML5, CSS3, Tailwind CSS, Bootstrap, and Node.js. I am passionate about creating premium user experiences, integrating AI-powered features, and delivering secure, scalable, and SEO-friendly applications.
+              </p>
+              <p className="text-zinc-400 text-sm md:text-base leading-relaxed">
+                My expertise spans automation architecture, web application development, API integration, cloud-ready deployments, DevOps practices, and AI-assisted solutions, enabling organizations to build reliable software with exceptional user experiences.
               </p>
             </div>
             
@@ -102,21 +105,34 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="lg:col-span-5 grid grid-cols-2 gap-4"
+            className="lg:col-span-5 flex flex-col justify-between"
           >
-            {STATS.map((stat, i) => (
-              <div 
-                key={stat.label} 
-                className="glass border border-white/5 p-6 rounded-2xl flex flex-col justify-center items-center text-center group hover:border-primary/20 transition-all duration-300"
-              >
-                <span className="text-4xl md:text-5xl font-extrabold text-primary group-hover:scale-105 transition-transform duration-300">
-                  {stat.value}
-                </span>
-                <span className="text-zinc-500 text-[10px] md:text-xs uppercase tracking-wider font-semibold mt-3">
-                  {stat.label}
-                </span>
-              </div>
-            ))}
+            {/* Tech Illustration */}
+            <div className="relative aspect-[1.5] w-full rounded-2xl border border-white/5 overflow-hidden shadow-2xl bg-zinc-950 mb-6 group hover:border-primary/25 transition-all duration-300">
+              <img 
+                src="/tech_illustration.png" 
+                alt="QA & Full-Stack Automation Pipelines" 
+                className="w-full h-full object-cover opacity-85 group-hover:scale-[1.03] group-hover:opacity-100 transition-all duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+            </div>
+
+            {/* Stats Grid */}
+            <div className="grid grid-cols-2 gap-4">
+              {STATS.map((stat, i) => (
+                <div 
+                  key={stat.label} 
+                  className="glass border border-white/5 p-5 rounded-2xl flex flex-col justify-center items-center text-center group hover:border-primary/20 transition-all duration-300"
+                >
+                  <span className="text-3xl md:text-4xl font-extrabold text-primary group-hover:scale-105 transition-transform duration-300">
+                    {stat.value}
+                  </span>
+                  <span className="text-zinc-500 text-[9px] md:text-[10px] uppercase tracking-wider font-semibold mt-2.5">
+                    {stat.label}
+                  </span>
+                </div>
+              ))}
+            </div>
           </motion.div>
         </div>
 

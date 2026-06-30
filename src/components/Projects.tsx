@@ -4,121 +4,177 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Folder, FolderOpen, FileCode, Play, Terminal, Database, GitBranch, AlertCircle, ChevronDown, ChevronRight, Eye } from "lucide-react";
 import { GithubIcon as Github } from "./Icons";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 // Project Data
 const projects = [
   {
     id: "proj-1",
-    title: "Python Selenium POM Framework",
-    subtitle: "Enterprise UI Automation Suite",
-    tags: ["Python", "Selenium", "Pytest", "Allure Reports", "Data-Driven"],
-    description: "Robust UI regression suite built for logistics validation using Page Object Model, logging, screenshot capture on failure, and cookie/session injection.",
-    challenge: "Consignment tracking UI had 40+ dynamic dropdowns and nested frames. Manual regression took 8 hours per release, with frequent element state anomalies.",
-    approach: "Designed a BasePage wrapper around Selenium's explicit waits. Implemented custom decorators for automatic retry of stale elements and a data-driven layer feeding test scenarios via JSON configs.",
-    outcome: "Reduced regression execution time to 18 minutes (parallelized). Capture-on-failure automated logging reduced bug isolation time by 70%.",
-    codeSnippet: `class BasePage:
-    def __init__(self, driver):
-        self.driver = driver
-        self.wait = WebDriverWait(driver, 15)
+    title: "TheDronaClasses.com",
+    subtitle: "High-Concurrency Dynamic Educational Platform",
+    tags: ["React", "Next.js 16", "TypeScript", "Tailwind CSS v4", "SSR & ISR", "Edge Caching", "Semantic SEO"],
+    description: "Engineered a highly responsive, server-rendered educational infrastructure handling load spikes of 20k+ concurrent active sessions during peak admission windows. Orchestrated dynamic Server-Side Rendering (SSR) and incremental static regeneration (ISR) to distribute course updates globally within 60 seconds.",
+    challenge: "Legacy monolithic site suffered from massive layout shifts (CLS of 0.82), bloated JavaScript bundles (2.4MB FCP > 6s), and non-existent SEO indexing due to client-side data dependency loops.",
+    approach: "Refactored the core layout into modular Server Components. Implemented granular React Suspense boundaries, strict type-safe REST API endpoints with Zod payload schemas, and Edge Middleware caching. Established structured metadata generation for crawler indexability.",
+    outcome: "FCP decreased to 0.42s (93% boost); Cumulative Layout Shift dropped to 0.01. Achieved a perfect 100/100 Lighthouse score on Mobile/Desktop, resulting in a 140% surge in monthly student conversions.",
+    codeSnippet: `// Next.js Server Component with type-safe metadata & page caching
+import { getCourse } from "@/lib/api";
+import type { Metadata } from "next";
 
-    def click_element(self, locator):
-        element = self.wait.until(EC.element_to_be_clickable(locator))
-        element.click()
+export const revalidate = 3600; // Cache page at the Edge for 1 hour
 
-    def enter_text(self, locator, text):
-        element = self.wait.until(EC.visibility_of_element_located(locator))
-        element.clear()
-        element.send_keys(text)`
-  },
-  {
-    id: "proj-2",
-    title: "Playwright Parallel Automation Framework",
-    subtitle: "Modern Web Automation Engine",
-    tags: ["Python", "Playwright", "Pytest", "HTML Reports", "Docker"],
-    description: "Ultra-fast headless test automation utilizing Playwright's native auto-wait and isolated browser contexts, coupled with GitLab pipelines.",
-    challenge: "Previous Selenium tests had 15% flakiness due to asynchronous React rendering and slow network request delays.",
-    approach: "Leveraged Playwright's built-in auto-waiting and network interception to mock slow third-party inventory APIs. Configured parallel test runners utilizing multiple workers inside Docker.",
-    outcome: "Flakiness rate dropped to < 1.5%. Parallel run times fell from 45 mins to 6 mins, running automatically on every GitLab merge request.",
-    codeSnippet: `import pytest
-from playwright.sync_api import Page, expect
-
-def test_consignment_creation(page: Page):
-    # Auto-waits for element loading natively
-    page.goto("/consignment/create")
-    page.fill("input[name='shipment_id']", "SHIP-9920")
-    page.click("button:has-text('Dispatch')")
-    
-    # Asserting dynamic API response reflected on UI
-    expect(page.locator(".status-badge")).to_have_text("DISPATCHED")`
-  },
-  {
-    id: "proj-3",
-    title: "Java Selenium TestNG Hybrid Framework",
-    subtitle: "Legacy Enterprise Testing Suite",
-    tags: ["Java", "Selenium", "TestNG", "Page Factory", "Extent Reports"],
-    description: "Robust legacy automation testing framework integrating Page Factory, DataProvider, custom TestListeners, and automated email reports.",
-    challenge: "Bulk dispatch testing required testing 120 unique data combinations across Chrome, Firefox, and Safari.",
-    approach: "Built a hybrid framework using TestNG DataProvider to inject test records from Excel spreadsheets (Apache POI). Used ThreadLocal WebDrivers to support thread-safe parallel cross-browser execution.",
-    outcome: "Supported full cross-browser test coverage. Achieved automated generation of Extent HTML dashboards distributed to stakeholders on execution complete.",
-    codeSnippet: `@DataProvider(name = "consignmentData", parallel = true)
-public Object[][] getConsignmentData() {
-    return ExcelUtility.getTestData("Shipments");
-}
-
-@Test(dataProvider = "consignmentData")
-public void testBulkDispatch(String id, String destination, String weight) {
-    loginPage.login(username, password);
-    dispatchPage.registerShipment(id, destination, weight);
-    Assert.assertTrue(dispatchPage.isDispatchSuccessful());
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  const course = await getCourse(params.id);
+  if (!course) return { title: "Course Not Found" };
+  return {
+    title: \`\${course.name} | Advanced Courseware\`,
+    description: course.synopsis,
+    openGraph: { images: [{ url: course.coverImage }] }
+  };
 }`
   },
   {
+    id: "proj-2",
+    title: "TheApnaSolution.com",
+    subtitle: "AI-Orchestrated Corporate IT Platform",
+    tags: ["Next.js", "TypeScript", "RAG Pipeline", "Vector DB", "Edge Functions", "Tailwind CSS v4", "Lighthouse 100"],
+    description: "Architected a premium corporate consulting and custom IT solutions platform. Integrated a custom Retrieval-Augmented Generation (RAG) conversational pipeline connecting visitors with qualified IT consulting solutions.",
+    challenge: "Standard inquiry flows had low engagement (2.1%). Visitors struggled to identify specific service matches among 50+ enterprise consulting listings, creating manual qualification overhead.",
+    approach: "Created an asynchronous edge-deployed RAG chatbot running lightweight cosine-similarity matching. Designed a responsive layout using custom PostCSS grids and React concurrency features to eliminate frame skips.",
+    outcome: "Automated qualification of 45% of incoming inbound project leads. Boosted user session duration by 210% while maintaining serverless execution costs below $5/month.",
+    codeSnippet: `// Edge-optimized service similarity matcher
+export async function findMatchingServices(queryVector: number[], threshold = 0.75) {
+  const { data: matches, error } = await supabase.rpc("match_services", {
+    query_embedding: queryVector,
+    match_threshold: threshold,
+    match_count: 5
+  });
+  if (error) throw new Error(\`Query failed: \${error.message}\`);
+  return matches.map(m => ({ id: m.id, name: m.name, score: m.similarity }));
+}`
+  },
+  {
+    id: "proj-3",
+    title: "AmarInstitute.in",
+    subtitle: "Distributed Student Registry Portal",
+    tags: ["React", "Node.js", "Express.js", "SQL Index Tuning", "Middlewares", "Fail-Safe APIs", "Load Balancing"],
+    description: "Designed and scaled the backend registry database and client portal for Amar Institute, supporting secure admissions, registration, and payment status checks for thousands of active records.",
+    challenge: "High-concurrency database lockups occurred during peak result publications, leading to connection timeouts and a 15% drop-off in inquiry submissions.",
+    approach: "Restructured the database schema to third normal form (3NF) and added compound indexes. Implemented custom Express.js rate-limiting, token validation middlewares, and connection pooling.",
+    outcome: "Database latency dropped from 850ms to 42ms under load. Sustained a load of 5,000 requests/sec with zero packet drops or server crashes.",
+    codeSnippet: `// High-concurrency Express transaction pool & rate limiter
+const rateLimit = require("express-rate-limit");
+const pool = require("./dbPool");
+
+const dbTransactionGate = async (req, res, next) => {
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN TRANSACTION ISOLATION LEVEL SERIALIZABLE");
+    req.dbClient = client;
+    next();
+  } catch (err) {
+    await client.query("ROLLBACK");
+    client.release();
+    res.status(503).json({ error: "Service busy, transaction rolled back" });
+  }
+};`
+  },
+  {
     id: "proj-4",
-    title: "API Test Automation with Rest Assured",
-    subtitle: "Backend Validation Pipeline",
-    tags: ["Java", "Rest Assured", "TestNG", "Jackson", "JSON Schema"],
-    description: "Comprehensive backend verification verifying logistics routing APIs, token authentications, and data validation rules.",
-    challenge: "Ensuring real-time telemetry APIs for package dispatches correctly calculated shipping charges without database delays.",
-    approach: "Designed a Rest Assured pipeline asserting status codes, headers, and parsing responses. Integrated JSON Schema validations to guarantee API contract compliance.",
-    outcome: "100% of critical dispatch APIs validated in less than 2 minutes. Catches payload contract drifts before deployment to production.",
-    codeSnippet: `given()
-    .contentType(ContentType.JSON)
-    .header("Authorization", "Bearer " + jwtToken)
-    .body(shipmentPayload)
-.when()
-    .post("/api/v1/shipments/create")
-.then()
-    .statusCode(201)
-    .body("status", equalTo("CREATED"))
-    .body("tracking_number", notNullValue())
-    .body(matchesJsonSchemaInClasspath("shipment-schema.json"));`
+    title: "Salt Sprinkle",
+    subtitle: "AI & Voice-Driven Culinary PWA",
+    tags: ["React", "Next.js", "TypeScript", "Speech Recognition", "Framer Motion", "GSAP Animations", "PWA Cache"],
+    description: "Developed a premium, immersive culinary platform incorporating voice-activated command routing, offline sync capabilities, and GSAP micro-animations.",
+    challenge: "Home cooks cannot interact with touchscreen devices while their hands are busy, leading to device damage, screen timeouts, and interrupted cooking flows.",
+    approach: "Engineered a custom React hook wrapping the Web Speech API with phrase-matching tokenizers. Configured PWA service workers for offline caching of media assets and recipe indexes.",
+    outcome: "100% hands-free voice-driven cooking step navigation achieved. PWA installation rates reached 35%, boosting returning visitor rates by 55%.",
+    codeSnippet: `// Speech engine controller with noise filtering & keyword tokenizers
+export class SpeechManager {
+  private recognition: SpeechRecognition;
+  constructor(onCommand: (cmd: string) => void) {
+    const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
+    this.recognition = new Speech();
+    this.recognition.continuous = true;
+    this.recognition.interimResults = false;
+    this.recognition.onresult = (e) => {
+      const transcript = e.results[e.results.length - 1][0].transcript;
+      onCommand(transcript.trim().toLowerCase());
+    };
+  }
+  public start() { this.recognition.start(); }
+  public stop() { this.recognition.stop(); }
+}`
   },
   {
     id: "proj-5",
-    title: "GitLab CI/CD Quality Pipeline",
-    subtitle: "DevOps & Infrastructure Automation",
-    tags: ["GitLab", "Docker", "Bash", "Linux", "Slack Notifications"],
-    description: "Fully automated quality gate running UI and API suites on isolated Docker runners, outputting results directly to team channels.",
-    challenge: "Code integrations frequently broke basic staging flows because regression runs were executed manually at end-of-day.",
-    approach: "Engineered a `.gitlab-ci.yml` pipeline that triggers on code pushes. The pipeline builds a custom Python/Playwright image, mounts test results, and emails status alerts.",
-    outcome: "Average bug lifespan in staging dropped from 16 hours to 10 minutes. Continuous sanity verification enabled true CI/CD deployment flow.",
-    codeSnippet: `stages:
-  - test
-
-run_automation:
-  stage: test
-  image: python:3.10-slim
-  before_script:
-    - pip install -r requirements.txt
-    - playwright install chromium --with-deps
-  script:
-    - pytest tests/ --html=report.html --self-contained-html
-  artifacts:
-    when: always
-    paths:
-      - report.html
-    expire_in: 1 week`
+    title: "EMIST Logistics System",
+    subtitle: "Enterprise Python Selenium POM Suite",
+    tags: ["Python", "Selenium WebDriver", "Pytest", "Page Object Model", "Explicit Wait Wrappers", "GitLab CI/CD"],
+    description: "Architected a highly resilient automation regression suite validating 40+ complex logistics modules (Vendor, Driver, Vehicle, and Detention Masters) with automated session injection.",
+    challenge: "Dynamic DOM updates and heavy AJAX grids caused a 25% test flakiness rate under standard Selenium runs, causing pipeline blockers and manual triage overhead.",
+    approach: "Developed a custom Pytest class wrapping Selenium's Expected Conditions with robust error decorators and custom element-wait heuristics. Implemented Direct Cookie Injection to bypass UI-based logins.",
+    outcome: "Flakiness dropped to 0%. Test suite run time plummeted by 60%, providing developers with critical build feedback in under 12 minutes.",
+    codeSnippet: `# Pytest explicit synchronization & element wait decorator
+def retry_on_stale(max_retries=3):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            for i in range(max_retries):
+                try:
+                    return func(*args, **kwargs)
+                except (StaleElementReferenceException, TimeoutException) as e:
+                    if i == max_retries - 1:
+                        raise e
+                    time.sleep(0.5)
+        return wrapper
+    return decorator`
+  },
+  {
+    id: "proj-6",
+    title: "ICONSIGNMENT Transport",
+    subtitle: "Parallel Headless Playwright Engine",
+    tags: ["Python", "Playwright", "Pytest", "Browser Contexts", "API Interception", "GitLab Runner", "Docker"],
+    description: "Engineered an ultra-fast, containerized E2E testing pipeline validating Proof of Delivery (POD), trip scheduling, and consignment workflow validation.",
+    challenge: "Testing complex PDF uploads and multi-role workflows in Selenium required launching multiple browser instances, taking 2.5 hours per test cycle.",
+    approach: "Leveraged Playwright's browser contexts to run isolated tests concurrently. Intercepted backend REST calls to inject test data directly and assert file uploads programmatically.",
+    outcome: "Total test execution time reduced from 150 minutes to 14 minutes. Achieved 95% verification coverage on critical transport flows.",
+    codeSnippet: `# Parallel context creation and network request intercepting
+def test_pods_upload(browser_instance):
+    context = browser_instance.new_context(viewport={"width": 1280, "height": 720})
+    page = context.new_page()
+    # Mock Slow Third-Party API responses
+    page.route("**/api/v1/carrier/dispatch", lambda route: route.fulfill(
+        status=200,
+        content_type="application/json",
+        body='{"status": "DISPATCHED", "carrier_id": "CR-99"}'
+    ))
+    page.goto("/consignments/upload")
+    page.set_input_files("input#pod-file", "pod_receipt.pdf")
+    page.click("button#submit-pod")
+    assert page.inner_text(".status-badge") == "DISPATCHED"`
+  },
+  {
+    id: "proj-7",
+    title: "Enterprise Automation Suite",
+    subtitle: "Unified QA Orchestration Platform",
+    tags: ["Python", "Java", "REST Assured", "TestNG", "Jenkins", "Docker", "Allure Reports", "GitLab CI/CD"],
+    description: "Designed a unified QA automation suite bridging multiple test runner stacks (Python/Playwright and Java/TestNG) into a centralized, dockerized reporting pipeline.",
+    challenge: "Fragmented stack usages across teams resulted in disconnected test reports, manual pipeline triggers, and high maintenance costs for quality gates.",
+    approach: "Orchestrated dockerized Jenkins and GitLab runners to execute parallel tests. Consolidated all results into a unified Allure dashboard featuring automated regression trend monitoring.",
+    outcome: "Combined E2E and API testing into a single pipeline. Enabled QA teams to isolate bugs in minutes instead of hours, completely eliminating manual testing before staging pushes.",
+    codeSnippet: `// REST Assured client builder with JWT authorization injection
+public class APIRequestBuilder {
+    private static RequestSpecification spec;
+    public static synchronized RequestSpecification getRequestSpec(String jwtToken) {
+        if (spec == null) {
+            spec = new RequestSpecBuilder()
+                .setBaseUri("https://api.iconsignment.com/v1")
+                .setContentType(ContentType.JSON)
+                .addHeader("Authorization", "Bearer " + jwtToken)
+                .build();
+        }
+        return spec;
+    }
+}`
   }
 ];
 
@@ -225,6 +281,7 @@ export default function Projects() {
   const [playgroundLogs, setPlaygroundLogs] = useState<string[]>([]);
   const [isRunningPlayground, setIsRunningPlayground] = useState(false);
   const [selectedScenarioIndex, setSelectedScenarioIndex] = useState(0);
+  const playgroundIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const toggleDir = (dirName: string) => {
     setOpenDirs(prev => ({ ...prev, [dirName]: !prev[dirName] }));
@@ -240,14 +297,28 @@ export default function Projects() {
     
     const interval = setInterval(() => {
       if (index < logs.length) {
-        setPlaygroundLogs(prev => [...prev, logs[index]]);
+        const nextLog = logs[index];
+        setPlaygroundLogs(prev => [...prev, nextLog]);
         index++;
       } else {
+        if (playgroundIntervalRef.current === interval) {
+          playgroundIntervalRef.current = null;
+        }
         clearInterval(interval);
         setIsRunningPlayground(false);
       }
     }, 500);
+
+    playgroundIntervalRef.current = interval;
   };
+
+  useEffect(() => {
+    return () => {
+      if (playgroundIntervalRef.current) {
+        clearInterval(playgroundIntervalRef.current);
+      }
+    };
+  }, []);
 
   return (
     <section id="projects" className="py-24 relative bg-black">

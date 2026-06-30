@@ -5,39 +5,39 @@ import { Code, Terminal, Layers, Database, ShieldAlert, Cpu, Settings } from "lu
 
 const skillCategories = [
   {
-    title: "Programming",
+    title: "Languages",
     icon: <Code className="w-5 h-5 text-primary" />,
-    skills: ["Python", "Java", "JavaScript"]
+    skills: ["Python", "Java", "JavaScript", "TypeScript", "HTML5 & CSS3"]
   },
   {
-    title: "Automation",
+    title: "QA & Automation",
     icon: <Terminal className="w-5 h-5 text-primary" />,
-    skills: ["Playwright", "Selenium", "Pytest", "TestNG"]
+    skills: ["Playwright", "Selenium WebDriver", "Pytest", "TestNG", "Page Object Model (POM)", "Hybrid & Data-Driven Testing"]
   },
   {
-    title: "API Testing",
-    icon: <ShieldAlert className="w-5 h-5 text-primary" />,
-    skills: ["REST Assured", "Postman"]
-  },
-  {
-    title: "Database",
-    icon: <Database className="w-5 h-5 text-primary" />,
-    skills: ["SQL", "MySQL"]
-  },
-  {
-    title: "CI/CD",
+    title: "Web Development",
     icon: <Layers className="w-5 h-5 text-primary" />,
-    skills: ["Git", "GitLab", "GitHub", "Docker", "Jenkins"]
+    skills: ["React", "Next.js (App Router)", "Node.js", "Express.js", "Tailwind CSS", "Bootstrap"]
   },
   {
-    title: "Tools",
-    icon: <Settings className="w-5 h-5 text-primary" />,
-    skills: ["VS Code", "PyCharm", "IntelliJ", "JIRA", "Azure DevOps", "BrowserStack"]
+    title: "API & Databases",
+    icon: <Database className="w-5 h-5 text-primary" />,
+    skills: ["REST Assured", "Postman", "REST APIs", "SQL & MySQL", "Database Validation"]
   },
   {
-    title: "Operating Systems",
+    title: "DevOps & CI/CD",
     icon: <Cpu className="w-5 h-5 text-primary" />,
-    skills: ["Windows", "Linux"]
+    skills: ["Git & GitHub", "GitLab CI/CD", "Jenkins", "Docker", "Vercel Deployments", "Cloud Testing Grids"]
+  },
+  {
+    title: "AI & Modern Tech",
+    icon: <ShieldAlert className="w-5 h-5 text-primary" />,
+    skills: ["AI Chat Integration", "Voice AI (Speech API)", "Progressive Web Apps (PWA)", "Framer Motion & GSAP", "Performance Tuning"]
+  },
+  {
+    title: "Tools & OS",
+    icon: <Settings className="w-5 h-5 text-primary" />,
+    skills: ["VS Code & PyCharm", "JIRA", "BrowserStack", "Linux & Windows"]
   }
 ];
 

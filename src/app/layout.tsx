@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Neeraj Singh | Senior QA Automation Engineer & SDET Specialist",
-  description: "Portfolio of Neeraj Singh, a Senior QA Automation Engineer and SDET Specialist with 10.5+ years of experience architecting automated test frameworks using Python, Playwright, Selenium, Java, and CI/CD pipelines.",
-  keywords: ["QA Automation", "SDET", "Software Developer in Test", "Playwright", "Selenium", "Python QA", "Test Framework Architect", "GitLab CI/CD", "Logistics QA"],
+  title: "Neeraj Singh | Software Engineer, SDET & Full-Stack Web Developer",
+  description: "Portfolio of Neeraj Singh, a Software Engineer, SDET, and Full-Stack Web Developer with 10.5+ years of experience in software quality engineering, test automation, and modern web development.",
+  keywords: ["QA Automation", "SDET", "Software Developer in Test", "Playwright", "Selenium", "Python QA", "Test Framework Architect", "GitLab CI/CD", "Logistics QA", "Full-Stack Developer", "Next.js", "React"],
   authors: [{ name: "Neeraj Singh" }],
 };
 

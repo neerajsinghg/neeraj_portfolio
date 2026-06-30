@@ -6,35 +6,35 @@ import { Briefcase, Calendar, CheckSquare } from "lucide-react";
 const experienceTimeline = [
   {
     period: "2022 - Present",
-    role: "Lead QA Automation Engineer & SDET",
-    company: "Logitech Systems (Supply Chain Div.)",
-    description: "Architecting E2E quality orchestration pipelines for EMIST and ICONSIGNMENT dispatch systems. Leading a team of 4 QA engineers to automate critical supply chain workflows.",
+    role: "Lead SDET & Full-Stack Web Developer",
+    company: "Logitech Systems & Independent Contracting",
+    description: "Orchestrating E2E quality pipelines and building modern Next.js/React web solutions. Leading E2E test runs for EMIST and ICONSIGNMENT logistics systems while delivering high-traffic corporate portals.",
     points: [
-      "Designed a modern Python Playwright framework using Page Object Model and parallel test execution, saving over 35 hours per release cycle.",
-      "Built and optimized GitLab CI/CD pipelines using custom Docker images to execute automated smoke and regression runs on every merge request.",
-      "Integrated REST Assured and Pytest automation suites, achieving 95%+ coverage on core backend order-fulfillment API endpoints."
+      "Architected Python Playwright and Selenium POM frameworks with parallel executions for EMIST/ICONSIGNMENT, shortening testing cycles by 90.5%.",
+      "Engineered TheDronaClasses.com and TheApnaSolution.com using Next.js App Router, Zod schemas, and Edge Middleware caching to achieve perfect Lighthouse scores.",
+      "Developed Salt Sprinkle, a premium food PWA featuring voice command navigation via the Web Speech API and offline service worker synchronization."
     ]
   },
   {
     period: "2018 - 2022",
-    role: "Senior QA Automation Engineer / SDET",
+    role: "Senior Software Engineer & Automation Architect",
     company: "SupplyChain Solutions Corp",
-    description: "Built scalable testing frameworks from scratch. Standardized automated UI and API regressions across multiple inventory management web portals.",
+    description: "Built scalable test frameworks and web portals from scratch. Unified multi-stack E2E regression runs and built custom AI chatbot qualifications.",
     points: [
-      "Architected a Java Selenium TestNG hybrid framework utilizing Page Factory, Data Provider patterns, and Extent Reports.",
-      "Implemented cross-browser execution grids using BrowserStack, reducing multi-browser verification times by 65%.",
-      "Developed automated failure-analysis scripts that capture logs and failure screenshots, reducing debugging time for developers."
+      "Designed a Java Selenium TestNG hybrid framework utilizing Page Factory, Data Provider patterns, and BrowserStack cross-browser grids.",
+      "Developed custom RAG conversational chatbots matching visitors with vector-indexed IT offerings, automating 45% of inbound qualifications.",
+      "Configured containerized GitLab CI/CD and Jenkins pipelines using custom Docker images to verify dynamic staging builds."
     ]
   },
   {
     period: "2015 - 2018",
-    role: "QA Automation Engineer",
+    role: "Full-Stack Developer & QA Engineer",
     company: "Nexus Technologies",
-    description: "Automated standard functional regression tests and participated in database-level verification suites.",
+    description: "Developed Express.js backend services and automated REST API verification suites to secure and scale student registries.",
     points: [
-      "Created and executed data-driven tests using Apache POI to parse transaction records, validating bulk ordering systems.",
-      "Executed automated API regressions using Rest Assured, incorporating JSON schema validation and JWT authentication.",
-      "Conducted weekly smoke and sanity test automation runs to verify build stability before staging deployments."
+      "Scaled database queries and connection pooling for portals like AmarInstitute.in, dropping latency from 850ms to 42ms under load.",
+      "Automated REST API validations using REST Assured, asserting payload schemas, authentication tokens, and database integrity.",
+      "Created custom Pytest wrappers and stale-element retry decorators to guarantee robust, flake-free regression execution."
     ]
   }
 ];
@@ -51,7 +51,7 @@ export default function Experience() {
             Professional <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-yellow-500">Journey</span>
           </h3>
           <p className="text-muted-foreground text-sm max-w-2xl mx-auto mt-4">
-            A career focused on designing solid automation architectures and optimizing test infrastructure.
+            A career focused on architecting enterprise-grade test automation pipelines and building high-performance, full-stack web applications.
           </p>
         </div>
 

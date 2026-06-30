@@ -3,16 +3,16 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Download, ArrowRight, Play, Terminal, Cpu } from "lucide-react";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const SUBTITLES = [
   "Senior QA Automation Engineer",
-  "Python Developer",
-  "Playwright Expert",
-  "Selenium Specialist",
+  "Full-Stack Web Developer",
   "Automation Framework Architect",
-  "API Testing Engineer",
-  "CI/CD Automation Engineer"
+  "Next.js & React Developer",
+  "Playwright & Selenium Expert",
+  "API Testing Specialist",
+  "Node.js Backend Engineer"
 ];
 
 const CODE_TEMPLATES = [
@@ -106,6 +106,7 @@ export default function Hero() {
   const [codeIndex, setCodeIndex] = useState(0);
   const [terminalLogs, setTerminalLogs] = useState<string[]>([]);
   const [isRunningTest, setIsRunningTest] = useState(false);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Typewriter effect for subtitle
   useEffect(() => {
@@ -133,27 +134,41 @@ export default function Hero() {
   }, [typeText, isDeleting, subIndex]);
 
   // Run test animation on 3D laptop
-  const runTestSimulation = () => {
-    if (isRunningTest) return;
+  const runTestSimulation = (indexToRun: number) => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
     setIsRunningTest(true);
     setTerminalLogs(["[system] Initializing test execution..."]);
     
-    const logs = CODE_TEMPLATES[codeIndex].logs;
+    const logs = CODE_TEMPLATES[indexToRun].logs;
     let currentLogIndex = 0;
     
     const interval = setInterval(() => {
       if (currentLogIndex < logs.length) {
-        setTerminalLogs(prev => [...prev, logs[currentLogIndex]]);
+        const nextLog = logs[currentLogIndex];
+        setTerminalLogs(prev => [...prev, nextLog]);
         currentLogIndex++;
       } else {
+        if (intervalRef.current === interval) {
+          intervalRef.current = null;
+        }
         clearInterval(interval);
         setIsRunningTest(false);
       }
     }, 600);
+
+    intervalRef.current = interval;
   };
 
   useEffect(() => {
-    runTestSimulation();
+    runTestSimulation(codeIndex);
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
   }, [codeIndex]);
 
   return (
@@ -217,7 +232,7 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="text-muted-foreground text-sm md:text-base leading-relaxed max-w-xl"
           >
-            Over 10.5 years of expertise designing hybrid automation frameworks (Playwright, Selenium, Rest Assured) for high-load Logistics & Supply Chain applications. Reducing manual testing efforts by up to 85% via scalable GitLab CI/CD pipelines.
+            Software Engineer, SDET, and Full-Stack Web Developer with 10.5+ years of experience. Architecting enterprise-grade test automation frameworks and building high-performance, SEO-optimized web applications with AI-powered features.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -309,7 +324,7 @@ export default function Hero() {
                     <div className="flex items-center justify-between text-[8px] text-zinc-500 border-b border-zinc-950 pb-1 mb-1">
                       <span>AUTOMATION PIPELINE SIMULATOR</span>
                       <button
-                        onClick={runTestSimulation}
+                        onClick={() => runTestSimulation(codeIndex)}
                         disabled={isRunningTest}
                         className={`flex items-center gap-1 px-1.5 py-0.5 rounded transition-all ${
                           isRunningTest 
